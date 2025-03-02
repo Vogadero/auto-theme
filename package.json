@@ -1,0 +1,90 @@
+{
+    "name": "auto-theme",
+    "displayName": "Auto Theme",
+    "description": "Automatically switch themes based on sunrise/sunset or custom schedule",
+    "version": "0.1.0",
+    "publisher": "Vogadero",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "main": "./out/extension.js",
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "contributes": {
+        "commands": [
+            {
+                "command": "auto-theme.openConfig",
+                "title": "Open Theme Configuration",
+                "icon": "images/theme.svg"
+            },
+            {
+                "command": "auto-theme.refreshThemes",
+                "title": "刷新主题列表"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "auto-theme",
+                    "title": "Auto Theme",
+                    "icon": "images/theme.svg"
+                }
+            ]
+        },
+        "views": {
+            "auto-theme": [
+                {
+                    "id": "auto-theme.configView",
+                    "name": "自动主题",
+                    "type": "webview"
+                }
+            ]
+        }
+    },
+    "capabilities": {
+        "virtualWorkspaces": true,
+        "untrustedWorkspaces": {
+            "supported": true
+        }
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Vogadero/auto-theme"
+    },
+    "bugs": {
+        "url": "https://github.com/Vogadero/auto-theme/issues"
+    },
+    "homepage": "https://github.com/Vogadero/auto-theme#readme",
+    "license": "MIT",
+    "icon": "images/theme.png",
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src",
+        "test": "nyc mocha --timeout 20000"
+    },
+    "dependencies": {
+        "axios": "^1.6.2",
+        "lunar-calendar": "^0.1.4"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "20.x",
+        "@types/sinon": "^17.0.4",
+        "@types/vscode": "^1.80.0",
+        "@typescript-eslint/eslint-plugin": "^8.22.0",
+        "@typescript-eslint/parser": "^8.22.0",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
+        "eslint": "^9.19.0",
+        "nyc": "^17.1.0",
+        "sinon": "^19.0.2",
+        "typescript": "^5.7.3"
+    }
+}
