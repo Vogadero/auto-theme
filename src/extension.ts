@@ -679,7 +679,7 @@ function getWebviewContent(config: ThemeConfig, webview: vscode.Webview) {
         <!-- 修改时间设置区域 -->
 <div class="time-grid" style="display: grid"> <!-- 始终显示 -->
     <div class="time-group">
-        <h3>${config.mode === "auto" ? "自动模式设置" : "白天主题设置"}
+        <h3>${"白天主题设置"}
             <span style="font-size:0.8em;color:#666">(${config.daytime.start} - ${config.daytime.end})</span>
         </h3>
         <div class="time-row manual-only" style="${config.mode === "auto" ? "display:none" : ""}"> <!-- 隐藏时间输入 -->
@@ -696,7 +696,7 @@ function getWebviewContent(config: ThemeConfig, webview: vscode.Webview) {
     </div>
 
     <div class="time-group">
-        <h3>${config.mode === "auto" ? "自动模式设置" : "夜间主题设置"}
+        <h3>${"夜间主题设置"}
             <span style="font-size:0.8em;color:#666">(${config.nighttime.start} - ${config.nighttime.end})</span>
         </h3>
         <div class="time-row manual-only" style="${config.mode === "auto" ? "display:none" : ""}"> <!-- 隐藏时间输入 -->
