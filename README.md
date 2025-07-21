@@ -15,11 +15,13 @@
 - 🌍 地理位置感知（IP定位+GPS备用）
 - 🌅 动态计算日出日落时间
 - ⚡ 智能调度系统（最优性能）
+- 🔄 配置自动保存（重启后恢复）
 
 ### 🌤️ 环境感知
 - ☀️ 实时天气集成（温度/风速/天气状况）
 - 🗓️ 农历日期显示
-- 📍 多源定位服务（[ipapi.co](https://ipapi.co/json/) + [api.ip.sb/geoip](https://api.ip.sb/geoip)）
+- 📍 多源定位服务（智能切换+错误回退[ipapi.co](https://ipapi.co/json/) + [api.ip.sb/geoip](https://api.ip.sb/geoip)）
+
 
 ### 🛠️ 高级配置
 ```jsonc
@@ -61,10 +63,13 @@
 
 | 配置项                  | 类型    | 默认值         | 说明                                    |
 | :---------------------- | :------ | :------------- | :-------------------------------------- |
+| `autoTheme.mode`        | string  | "auto"         | 工作模式 [auto｜manual]                 |
+| `autoTheme.dayTheme`    | string  | "Default Light+" | 白天主题                                |
+| `autoTheme.nightTheme`  | string  | "Default Dark+" | 夜间主题                                |
 | `autoTheme.precision`   | number  | 300            | 检测间隔(秒)                            |
 | `autoTheme.weatherUnit` | string  | "metric"       | 温度单位（metric/imperial）             |
 | `autoTheme.enableLunar` | boolean | true           | 是否显示农历                            |
-| `autoTheme.alertLevel`  | string  | "notification" | 错误提示方式（notification/toast/none） |
+| `autoTheme.manualLocation` | object | null         | 手动设置坐标 { lat: 39.9, lng: 116.4 }  |
 
 ## 🌍 定位服务架构
 

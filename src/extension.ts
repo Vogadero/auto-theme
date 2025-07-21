@@ -56,7 +56,12 @@ interface IpGeoResponse {
 export function activate(context: vscode.ExtensionContext) {
     const currentTheme = vscode.workspace.getConfiguration().get("workbench.colorTheme");
 
-    let config: ThemeConfig = {
+    // 配置版本，用于未来升级兼容
+    const CONFIG_VERSION = 1;
+    
+    // 从持久化存储加载配置
+    let savedConfig = context.globalState.get<ThemeConfig>('themeConfig');
+    let config: ThemeConfig = savedConfig || {
         mode: "auto",
         daytime: { start: "08:00", end: "18:00", theme: "" },
         nighttime: { start: "19:00", end: "07:00", theme: "" },
@@ -65,9 +70,30 @@ export function activate(context: vscode.ExtensionContext) {
         longitude: 116.4074,
         currentTheme: currentTheme as string,
     };
+    
+    // 如果加载的配置版本低于当前版本，执行迁移逻辑
+    if (savedConfig && (savedConfig as any).version < CONFIG_VERSION) {
+        // 这里可以添加配置迁移逻辑
+        config = { ...config, ...savedConfig };
+    }
+    
+    // 保存配置函数
+    const saveConfig = () => {
+        // 添加版本信息
+        const configToSave = { ...config, version: CONFIG_VERSION };
+        context.globalState.update('themeConfig', configToSave);
+    };
+    
+    // 初始化时保存默认配置（如果不存在）
+    if (!savedConfig) {
+        saveConfig();
+    }
 
     const allThemes = getAllColorThemes();
     console.log("所有颜色主题:", allThemes);
+
+    // 添加定位请求状态标志
+    let isFetchingLocation = false;
 
     // Webview视图提供器
     const provider = {
@@ -82,6 +108,8 @@ export function activate(context: vscode.ExtensionContext) {
                 switch (message.type) {
                     case "updateConfig":
                         config = { ...config, ...message.config };
+                        // 保存更新后的配置
+                        saveConfig();
                         break;
 
                     case "applyConfig":
@@ -192,6 +220,15 @@ export function activate(context: vscode.ExtensionContext) {
                             });
                         break;
                     case "getLocation":
+                        // 如果正在获取定位，则跳过
+                        if (isFetchingLocation) {
+                            return;
+                        }
+                        
+                        // 设置状态标志
+                        isFetchingLocation = true;
+                        vscode.window.showWarningMessage("正在获取定位信息...");
+                        
                         const fetchWithFallback = async () => {
                             const apis = ["https://ipapi.co/json/", "https://api.ip.sb/geoip"];
 
