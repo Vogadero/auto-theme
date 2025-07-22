@@ -70,7 +70,7 @@
         "test": "nyc mocha --timeout 20000"
     },
     "dependencies": {
-        "axios": "^1.6.2",
+        "axios": "^1.8.4",
         "lunar-calendar": "^0.1.4"
     },
     "devDependencies": {
